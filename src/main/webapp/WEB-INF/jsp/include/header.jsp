@@ -1,74 +1,148 @@
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <style>
-        #form{
-            margin-top: 22px;
+    <meta charset="ISO-8859-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style type="text/css">
+        nav {
+            background-color: #011c39;
+            height: 80px;
+            width: 100%;
         }
+
+        label.logo {
+            color: white;
+            font-size: 35px;
+            line-height: 80px;
+            padding: 0 100px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            float: right;
+            margin-right: 20px;
+
+        }
+
+        nav ul li {
+            display: inline-block;
+            line-height: 80px;
+            margin: 0 5px;
+
+        }
+
+        nav ul li a {
+            color: white;
+            font-size: 17px;
+            padding: 7px 13px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
+
+        a.active, a.hover {
+            background: #1b9bff;
+            transition: .5s;
+        }
+
+        .checkbtn {
+            font-size: 30px;
+            color: white;
+            float: right;
+            line-height: 80px;
+            margin-right: 40px;
+            cursor: pointer;
+            display: none;
+        }
+
+        #check {
+            display: none;
+        }
+
+        @media (max-width: 952px) {
+            label.logo {
+                font-size: 30px;
+                padding-left: 50px;
+            }
+
+            nav ul li a {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 858px) {
+            .checkbtn {
+                display: block;
+            }
+
+            ul {
+                position: fixed;
+                width: 100%;
+                height: 100vh;
+                background: #2c3e50;
+                top: 80px;
+                left: -100%;
+                text-align: center;
+            }
+
+            nav ul li {
+                display: block;
+                margin: 50px 0;
+                line-height: 30px;
+            }
+
+            nav ul li a {
+                font-size: 20px;
+            }
+
+            a:hover, a.active {
+                background: none;
+                color: #0082e6;
+            }
+
+            #check:checked ~ ul {
+                left: 0;
+            }
+        }
+
+
     </style>
-    <meta charset="utf-8">
-    <title>Fashionably Late Official Site</title>
+    <script src="https://kit.fontawesome.com/39f198be01.js"
+            crossorigin="anonymous"></script>
 </head>
+<nav>
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"
-        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <input type="checkbox" id="check">
+    <label for="check" class="checkbtn">
+        <i class="fas fa-bars"></i>
+    </label>
+    <label class="logo">Fashionably Late Store</label>
+    <ul>
 
-<body>
+        <li> <a href="/product"> Shop </a>
+        </li>
 
-<div style="background: #E0E0E0; height: 55px; padding: 5px;">
-    <div style="float: left">
-        <h1>The Late Store</h1>
-    </div>
+        <li>
+        <li><a <sec:authorize access="hasAuthority('ADMIN')">
+            <a href="/user/search">Search</a>
+        </sec:authorize>
+        </li>
 
-    <div style="float: right; padding: 10px; text-align: right;">
+        <li>
+            <sec:authorize access="!isAuthenticated()">
+                <a href="/login/login">Login</a>
+            </sec:authorize>
+        </li>
 
-        <!-- User store in session with attribute: loginUser -->
-        <b>
-            <span>Hello</span>
-            &nbsp; | &nbsp
-        </b>
+        <li>
+            <sec:authorize access="isAuthenticated()">
+            <a href="/login/logout">Logout</a>
 
-        <form action="/user/search" method="GET" id="form">
-            Product Name : <input type="text" name="productName" value="${productName}">
-            <button type="submit">Search</button>
-        </form>
-
-
-    </div>
-
-</div>
-
-<div class="container">
-
-    <a href="/index">Index</a> &nbsp; | &nbsp;
-    <%--    <a href="/ajax">AJAX Example</a> &nbsp; | &nbsp;--%>
-    <%--    <a href="/upload">Upload Example</a> &nbsp; | &nbsp;--%>
-    <a href="/user/register">Sign Up</a>
-    <a href="/product/search">Search Product</a>
-
-    <sec:authorize access="hasAuthority('ADMIN')">
-    &nbsp; | &nbsp;<a href="/user/search">Search</a>
-    </sec:authorize>
-
-    <sec:authorize access="!isAuthenticated()">
-    &nbsp; | &nbsp; <a href="/login/login">Login</a>
-    </sec:authorize>
+                <sec:authentication property="principal.username"/>
+            </sec:authorize>
 
 
-    <sec:authorize access="isAuthenticated()">
-    &nbsp; | &nbsp; <a href="/login/logout">Logout</a>
-    &nbsp; | &nbsp;
+    </ul>
 
-<%--        <sec:authentication property="principal.username"/>--%>
 
-    </sec:authorize>
-
-    <hr>
+</nav>
+</html>

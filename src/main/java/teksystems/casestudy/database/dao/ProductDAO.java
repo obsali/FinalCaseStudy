@@ -14,9 +14,6 @@ import java.util.List;
 @Repository
 public interface ProductDAO extends JpaRepository<Product, Long>
 {
-    List<Product> findProductById(@Param("id") Integer id);
+Product findById(@Param("id") Integer id);
 
-    static List<Product> findByName(@Param("name") String name) {
-        return new ArrayList<>();
-    }
 }
