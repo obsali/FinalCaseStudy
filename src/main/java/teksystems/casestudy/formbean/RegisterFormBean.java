@@ -16,7 +16,7 @@ import javax.validation.constraints.Pattern;
 @ToString
 public class RegisterFormBean {
 
-    // this id will be null in the case of a create
+    // this id will be null in the case of a creation
     // and will be populated with the user id in the case of an edit
     private Integer id;
 
@@ -32,7 +32,7 @@ public class RegisterFormBean {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @Length(min = 3, max = 15, message="Password must be between 3 and 15 characters")
+    @Length(min = 3, max = 15, message = "Password must be between 3 and 15 characters")
     @NotBlank(message = "Password is required")
     private String password;
 

@@ -1,148 +1,60 @@
+<%@ taglib prefix="c" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style type="text/css">
-        nav {
-            background-color: #011c39;
-            height: 80px;
-            width: 100%;
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <style>
+
+        #welcome {
+            font-size: 20px;
+            margin: 0px 5px 0px 5px;
+            padding: 0px 0px 0px 10px;
         }
 
-        label.logo {
-            color: white;
-            font-size: 35px;
-            line-height: 80px;
-            padding: 0 100px;
-            font-weight: bold;
+        #navBar {
+            padding: 20px;
+            background-color: #c4e1e7;
+            font-size: large;
         }
 
-        nav ul {
-            float: right;
-            margin-right: 20px;
-
+        #siteHeader {
+            float: left;
         }
 
-        nav ul li {
-            display: inline-block;
-            line-height: 80px;
-            margin: 0 5px;
+        /*#login {*/
+        /*    float: right;*/
+        /*    margin-right: 100px;*/
+        /*    margin-bottom: 100px;*/
 
-        }
-
-        nav ul li a {
-            color: white;
-            font-size: 17px;
-            padding: 7px 13px;
-            border-radius: 3px;
-            text-transform: uppercase;
-        }
-
-        a.active, a.hover {
-            background: #1b9bff;
-            transition: .5s;
-        }
-
-        .checkbtn {
-            font-size: 30px;
-            color: white;
-            float: right;
-            line-height: 80px;
-            margin-right: 40px;
-            cursor: pointer;
-            display: none;
-        }
-
-        #check {
-            display: none;
-        }
-
-        @media (max-width: 952px) {
-            label.logo {
-                font-size: 30px;
-                padding-left: 50px;
-            }
-
-            nav ul li a {
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 858px) {
-            .checkbtn {
-                display: block;
-            }
-
-            ul {
-                position: fixed;
-                width: 100%;
-                height: 100vh;
-                background: #2c3e50;
-                top: 80px;
-                left: -100%;
-                text-align: center;
-            }
-
-            nav ul li {
-                display: block;
-                margin: 50px 0;
-                line-height: 30px;
-            }
-
-            nav ul li a {
-                font-size: 20px;
-            }
-
-            a:hover, a.active {
-                background: none;
-                color: #0082e6;
-            }
-
-            #check:checked ~ ul {
-                left: 0;
-            }
-        }
-
-
+        /*}*/
     </style>
-    <script src="https://kit.fontawesome.com/39f198be01.js"
-            crossorigin="anonymous"></script>
-</head>
-<nav>
-
-    <input type="checkbox" id="check">
-    <label for="check" class="checkbtn">
-        <i class="fas fa-bars"></i>
-    </label>
-    <label class="logo">Fashionably Late Store</label>
     <ul>
 
-        <li> <a href="/product"> Shop </a>
-        </li>
+        <div id="navBar"><a href="/index">Home</a> &nbsp; | &nbsp; <a href="/product/all">Shop</a> &nbsp; | &nbsp; <a
+                href="/user/search">Search</a> &nbsp; | &nbsp; <a href="/product/search">Search Shop</a>
+            <a href="/index"><h2 id="siteHeader"> Fashionably Late Running Store &#127939;
+                &nbsp; | &nbsp;
+            </h2></a></div>
 
-        <li>
-        <li><a <sec:authorize access="hasAuthority('ADMIN')">
-            <a href="/user/search">Search</a>
+        <div id="authBar"><sec:authorize access="!isAuthenticated()">
+            <a id="login"
+               href="/login/login">Login</a>&nbsp; | &nbsp;<a id="login" href="/register/registerForm">Register</a>
         </sec:authorize>
-        </li>
-
-        <li>
-            <sec:authorize access="!isAuthenticated()">
-                <a href="/login/login">Login</a>
-            </sec:authorize>
-        </li>
-
-        <li>
             <sec:authorize access="isAuthenticated()">
-            <a href="/login/logout">Logout</a>
-
-                <sec:authentication property="principal.username"/>
+                <span id="welcome">Lets Run, <sec:authentication property="principal.username"/></span> <span>&nbsp</span>
+                <a id="navLogout" href="/login/logout">Logout</a> <a id="navAccount" href="/user/accountEditForm">Account</a>
             </sec:authorize>
-
-
-    </ul>
-
-
-</nav>
+            &nbsp; | &nbsp;
+            <%-- easy example of how to show something gated off for ADMIN only.--%>
+            <sec:authorize access="hasAuthority('ADMIN')">
+                 <span style="font-style: italic" id="welcome">Signed in as ADMIN.</span>
+            </sec:authorize>
+        </div
 </html>

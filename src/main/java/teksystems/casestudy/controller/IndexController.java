@@ -34,7 +34,7 @@ public class IndexController {
         String currentPrincipalName = authentication.getName();
         User loggedInUser = userDao.findByEmail(currentPrincipalName);
 
-        if ( loggedInUser == null ) {
+        if (loggedInUser == null) {
             log.debug("Not logged in");
         } else {
             log.debug("User logged in " + loggedInUser);
@@ -45,4 +45,12 @@ public class IndexController {
         return response;
     }
 
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
+    public ModelAndView home() throws Exception {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("product/homee");
+
+        return response;
+
+    }
 }
