@@ -3,6 +3,7 @@ package teksystems.casestudy.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,6 +55,8 @@ public class UserController {
 
         return response;
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
 
     @RequestMapping(value="/user/search", method= RequestMethod.GET )
     public ModelAndView search(@RequestParam(value = "firstName", required = false) String firstName) {

@@ -1,22 +1,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="../include/header.jsp" />
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Product</title>
+    <title>Search Users</title>
     <style>
         h1 {
             text-align: center;
             position: relative;
             top: 10px;
-
         }
 
-        h5{
+        h5 {
             text-align: center;
             position: relative;
             top: 10px;
@@ -70,57 +67,34 @@
             /*display: grid;*/
             /*grid-template-columns: 1fr 1fr;*/
             /*gap: 2rem;*/
+        }
 
-        }
-        table{
-            font-size: 20px;
-        }
 
     </style>
 </head>
 
-<h1>Search Products</h1>
+<h1>Cart</h1>
 
-<div id="main">
-<br>
-<form action="/product/search" method="GET">
-    Product Name : <input class="input" placeholder="search for products" type="text" name="productName" value="${productName}">
-    <button id="btn" type="submit">Submit</button>
-</form>
-</div>
-
-<br>
-
-<c:if test="${not empty productName}">
-    <h5>Search Results Found ${productsModelKey.size()}</h5>
-    <br>
-    <br>
-</c:if>
-
-
-<table style="width:50%"  class="table">
+<table class="table">
     <tr scope="row">
         <th>Product Name</th>
-<%--        <th>Product Id</th>--%>
-        <th>Product Description</th>
-        <th>Price</th>
-        <th>Image</th>
-        <th>Edit</th>
-
+        <th>Pid</th>
+        <th>Oid</th>
+        <th>Quantity</th>
+        <th>price</th>
+        <th>Total</th>
     </tr>
-    <c:forEach items="${productsModelKey}" var="product">
+    <c:forEach items="${cartProducts}" var="cp">
         <tr scope="row">
-            <td>${product.name}</td>
-<%--            <td>${product.id}</td>--%>
-            <td>${product.description}</td>
-            <td>$${product.price}</td>
-            <td><img src="${product.imgUrl}"></td>
-
-            <td><a href="/product/edit/${product.id}">Edit</a></td>
+            <td>${cp.name}</td>
+            <td>${cp.product_id}</td>
+            <td>${cp.order_id}</td>
+            <td>${cp.quantity}</td>
+            <td>${cp.price}</td>
+            <td>${cp.total}</td>
         </tr>
     </c:forEach>
 </table>
 
 
 <jsp:include page="../include/footer.jsp" />
-

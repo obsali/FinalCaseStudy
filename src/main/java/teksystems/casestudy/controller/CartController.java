@@ -82,6 +82,45 @@
 //        }
 //        user = userDao.findByEmail(username);
 //
+//        currentCart = orderDAO.findPendingTransactionByUserId(user.getId());
+//        if (currentCart == null) {
+//            currentCart = new Order();
+//            OrderProductDAO.save(currentCart);
+//            currentCart.setUser(user);
+//            currentCart.setStatus("PENDING");
+//            currentCart.setTotal(0.00D);
+//            currentCart.setOrderDate(LocalDate.now());
+//            Orderdao.save(currentCart);
+//            log.info("Transaction " + currentCart.getId() + " has been created.");
+//        }
+//        currentDetail = transactionDetailDAO.findTransactionDetailByTransactionIdAndItemId(currentCart.getId(), itemId);
+//        if (currentDetail == null) {
+//            currentDetail = new TransactionDetail();
+//            transactionDetailDAO.save(currentDetail);
+//            currentDetail.setTransaction(currentCart);
+//            currentDetail.setItem(itemDAO.findItemById(itemId));
+//            currentDetail.setQuantity(1);
+//            transactionDetailDAO.save(currentDetail);
+//            currentCart.getDetails().add(currentDetail);
+//            log.info("Transaction details for item " + itemId + " has been created for transaction " + currentCart.getId());
+//        } else {
+//            currentDetail.setQuantity(currentDetail.getQuantity() + 1);
+//            transactionDetailDAO.save(currentDetail);
+//            List<TransactionDetail> details = currentCart.getDetails();
+//            for (int i = 0; i < details.size(); i++) {
+//                if (details.get(i).getItem() == itemDAO.findItemById(itemId)) {
+//                    details.set(i, currentDetail);
+//                }
+//            }
+//            log.info("Quantity has been increased for " + itemId + " in transaction " + currentCart.getId());
+//        }
+//
+//        response.setViewName("redirect:/search/itemSearch");
+//
+//        return response;
+//    }
+//}
+//
 //
 ////            OrderProduct orderProduct = new OrderProduct();
 ////            orderProduct.setProduct(product);

@@ -36,6 +36,8 @@ public class Product {
     @Column(name = "name")
     private String name;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private Set<OrderProduct> orderProducts;

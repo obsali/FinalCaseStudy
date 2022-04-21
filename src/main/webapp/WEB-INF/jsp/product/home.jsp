@@ -41,8 +41,8 @@
                     <h5 class="card-title">${product.name}</h5>
                     <h5 class="card-title">$${product.price}</h5>
                     <h5 class="card-title">${product.category}</h5>
-                    <a href="#" class="btn btn-primary">Buy Now</a>
-                    <a href="#" class="btn btn-primary">Add To Cart</a>
+                    <a href="/cart/check-out/${product.id}" class="btn btn-primary">Buy Now</a>
+                    <a href="/cart/addTo-cart/${product.id}" class="btn btn-primary">Add To Cart</a>
 
                 </div>
                 </div>
