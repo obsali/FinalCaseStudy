@@ -135,4 +135,19 @@ public class ProductController {
         response.setViewName("user/productAdded");
         return response;
     }
+    @RequestMapping(value = "/product/all", method = RequestMethod.GET)
+    public ModelAndView product() throws Exception {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("product/home");
+
+        List<Product> allProducts = productDao.findAll();
+
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        String username = authentication.getName();
+//        User user = userDao.findByEmail(username);
+
+        response.addObject("allProducts", allProducts);
+        return response;
+    }
+
 }

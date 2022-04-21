@@ -19,6 +19,9 @@ public class OrderProduct {
     @Column(name = "id")
     private Integer id;
 
+    @Column(name = "quantity")
+    int quantity;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;

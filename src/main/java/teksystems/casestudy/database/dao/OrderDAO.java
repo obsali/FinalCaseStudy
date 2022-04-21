@@ -13,4 +13,10 @@ public interface OrderDAO extends JpaRepository<OrderProduct, Long> {
 
     @Override
     List<OrderProduct> findAllById(Iterable<Long> longs);
+
+//    Order findPendingTransactionByUserId(Integer id);
+
+
 }
+
+

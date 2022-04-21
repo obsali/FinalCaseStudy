@@ -101,18 +101,19 @@
 <table style="width:50%"  class="table">
     <tr scope="row">
         <th>Product Name</th>
-        <th>Product Id</th>
+<%--        <th>Product Id</th>--%>
         <th>Product Description</th>
         <th>Price</th>
+        <th>Image</th>
         <th>Edit</th>
-        <th>IMG</th>
+
     </tr>
     <c:forEach items="${productsModelKey}" var="product">
         <tr scope="row">
             <td>${product.name}</td>
-            <td>${product.id}</td>
+<%--            <td>${product.id}</td>--%>
             <td>${product.description}</td>
-            <td>${product.price}</td>
+            <td>$${product.price}</td>
             <td>${product.imgUrl}</td>
 
             <td><a href="/product/edit/${product.id}">Edit</a></td>

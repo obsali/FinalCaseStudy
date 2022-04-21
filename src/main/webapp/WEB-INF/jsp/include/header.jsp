@@ -35,8 +35,7 @@
 
         /*}*/
     </style>
-    <ul>
-
+    <nav>
         <div id="navBar"><a href="/index">Home</a> &nbsp; | &nbsp; <a href="/product/all">Shop</a> &nbsp; | &nbsp; <a
                 href="/user/search">Search</a> &nbsp; | &nbsp; <a href="/product/search">Search Shop</a>
             <a href="/index"><h2 id="siteHeader"> Fashionably Late Running Store &#127939;
@@ -57,4 +56,5 @@
                  <span style="font-style: italic" id="welcome">Signed in as ADMIN.</span>
             </sec:authorize>
         </div
+    </nav>
 </html>
