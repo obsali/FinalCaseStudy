@@ -1,6 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<jsp:include page="../include/header.jsp" />
+<jsp:include page="../include/header.jsp"/>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -73,28 +73,44 @@
     </style>
 </head>
 
-<h1>Cart</h1>
+<h2 style="margin-top: -20px; text-align: center">Cart</h2>
 
-<table class="table">
+<table  style=" margin-left: auto; margin-right: auto;table-layout: auto;width: 60%; margin-top: -5px" class="table">
     <tr scope="row">
         <th>Product Name</th>
-        <th>Pid</th>
-        <th>Oid</th>
+        <%--        <th>Pid</th>--%>
+        <th>Order Id</th>
         <th>Quantity</th>
         <th>price</th>
         <th>Total</th>
+<%--        <th>Remove</th>--%>
+
+
     </tr>
     <c:forEach items="${cartProducts}" var="cp">
         <tr scope="row">
             <td>${cp.name}</td>
-            <td>${cp.product_id}</td>
+                <%--            <td>${cp.product_id}</td>--%>
             <td>${cp.order_id}</td>
             <td>${cp.quantity}</td>
             <td>${cp.price}</td>
             <td>${cp.total}</td>
+<%--            <td>  <a href="#" class="btn btn-secondary">Remove ${cp.name}</a></td>--%>
+
         </tr>
+
     </c:forEach>
 </table>
+<a href="/cart/pay" class="btn btn-primary">Check Out</a>
+
+<script>
+    const btn = document.getElementById('checkout');
+
+    btn.addEventListener('click', function onClick() {
+        btn.style.backgroundColor = 'green';
+        btn.style.color = 'white';
+    });
+</script>
 
 
-<jsp:include page="../include/footer.jsp" />
+<%--<jsp:include page="../include/footer.jsp"/>--%>

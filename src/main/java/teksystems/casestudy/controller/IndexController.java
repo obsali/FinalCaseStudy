@@ -40,17 +40,17 @@ public class IndexController {
             log.debug("User logged in " + loggedInUser);
         }
 
-        response.setViewName("index");
+        response.setViewName("user/index2");
 
         return response;
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.GET)
-    public ModelAndView home() throws Exception {
-        ModelAndView response = new ModelAndView();
-        response.setViewName("product/homee");
-
-        return response;
-
-    }
+//    @RequestMapping(value = "/home", method = RequestMethod.GET)
+//    public ModelAndView home() throws Exception {
+//        ModelAndView response = new ModelAndView();
+//        response.setViewName("product/homee");
+//
+//        return response;
+//
+//    }
 }

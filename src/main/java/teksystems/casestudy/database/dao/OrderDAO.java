@@ -24,6 +24,9 @@ public interface OrderDAO extends JpaRepository<Order, Long> {
 
     List<Map<String,Object>> getCartProducts(@Param("userId") Integer userId, @Param("status") String status );
 
+    Order findById(Integer id);
+
+
 }
 
 

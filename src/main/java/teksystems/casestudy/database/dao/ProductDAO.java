@@ -20,4 +20,6 @@ public interface ProductDAO extends JpaRepository<Product, Long> {
     List<Product> findByNameIgnoreCaseContaining(@Param("name") String name);
 
 
+
+
 }

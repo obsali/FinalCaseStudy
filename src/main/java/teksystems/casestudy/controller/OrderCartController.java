@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -111,7 +112,7 @@ public class OrderCartController {
         orderDAO.save(order);
 
 
-        List<Map<String, Object>> cartProducts = orderDAO.getCartProducts(user.getId(), "PENDING");
+        List<Map<String, Object>> cartProducts = orderDAO.getProductNameAndOderCount();
         response.addObject("cartProducts", cartProducts);
         return response;
     }
@@ -139,6 +140,91 @@ public class OrderCartController {
 
 
     }
-}
 
+
+//    @RequestMapping(value = "/cart/remove-cart/{productid}", method = RequestMethod.GET)
+//    public ModelAndView removeFromCart(@PathVariable("productid") Integer productId) throws Exception {
+//        ModelAndView response = new ModelAndView();
+//        response.setViewName("redirect:/product/orderCart");
+//
+//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//
+//        String username;
+//        if (principal instanceof UserDetails) {
+//            username = ((UserDetails) principal).getUsername();
+//        } else {
+//            username = principal.toString();
+//        }
+//        User user = userDao.findByEmail(username);
+//
+//        Order order = new Order();
+//        OrderProduct orderDetail = new OrderProduct();
+//
+//        order.setStatus("PENDING");
+//        order.setOrderDate(new Date());
+//        order.setUser(user);
+//        orderDAO.delete(order);
+//
+//
+//        orderDetail.setOrder(order);
+//        orderDetail.setProduct(productDAO.findById(productId));
+//        orderDetail.setQuantity(-1);
+//        orderProductDAO.save(orderDetail);
+//
+//        Set<OrderProduct> orderProductList = new HashSet<>();
+//        orderProductList.add(orderDetail);
+//        order.setOrderProducts(orderProductList);
+//        orderDAO.save(order);
+//
+//
+//        List<Map<String, Object>> cartProducts = orderDAO.getProductNameAndOderCount();
+//        response.addObject("cartProducts", cartProducts);
+//        return response;
+//    }
+
+    /**
+     * save all currnet cart in pending, change to purchase once payment info has been varied. save the purchase and order details.
+     */
+
+    @RequestMapping(value = "/cart/pay", method = RequestMethod.GET)
+    public ModelAndView pay() throws Exception {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("redirect:/user/thanks");
+
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        User user = userDao.findByEmail(username);
+
+        Order order = new Order();
+        OrderProduct orderDetail = new OrderProduct();
+
+        order.setStatus("PAID");
+        order.setOrderDate(new Date());
+        order.setUser(user);
+        orderDAO.save(order);
+
+
+        orderDetail.setOrder(order);
+        orderDetail.setQuantity(0);
+        orderProductDAO.save(orderDetail);
+
+        Set<OrderProduct> orderProductList = new HashSet<>();
+        orderProductList.add(orderDetail);
+        order.setOrderProducts(orderProductList);
+        orderDAO.save(order);
+
+
+        List<Map<String, Object>> cartProducts = orderDAO.getProductNameAndOderCount();
+        response.addObject("cartProducts", cartProducts);
+        cartProducts.removeAll(cartProducts);
+        return response;
+    }
+}
 

@@ -114,11 +114,11 @@
 <%--            <td>${product.id}</td>--%>
             <td>${product.description}</td>
             <td>$${product.price}</td>
-            <td><img src="${product.imgUrl}"></td>
+            <td><img style="width: 200px; height: 150px; " src="${product.imgUrl}"></td>
 
             <td><a href="/product/edit/${product.id}">Edit</a></td>
         </tr>
-    </c:forEach>
+    </c:forEach>he
 </table>
 
 

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import teksystems.casestudy.database.entity.OrderProduct;
+import teksystems.casestudy.database.entity.Product;
 import teksystems.casestudy.database.entity.User;
 
 import java.util.List;
@@ -26,8 +27,15 @@ public interface OrderProductDAO extends JpaRepository<OrderProduct, Long> {
             "and o.user_id = :userId and status = :status", nativeQuery = true)
     List<Map<String, Object>> getCartProducts(@Param("userId") Integer userId, @Param("status") String status);
 
+    @Query(value = "SELECT * FROM orders WHERE user_id = :userId AND cart_status = :cartStatus", nativeQuery = true)
+    public OrderProduct findByUserIdAndCartStatus(@Param("userId") Integer userId, @Param("cartStatus") String cartStatus);
+
+
 // in your JSP you can do a for each
 // for each orderProduct var=op
 // ${op.cnt}   ${op.product_id} ${op.name}
 // end for each
+
+    public OrderProduct findByProduct(@Param("product") Product product);
+
 }
