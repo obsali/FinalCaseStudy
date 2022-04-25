@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,7 +20,9 @@ import teksystems.casestudy.database.dao.UserDAO;
 import teksystems.casestudy.database.entity.Order;
 import teksystems.casestudy.database.entity.OrderProduct;
 import teksystems.casestudy.database.entity.User;
+import teksystems.casestudy.formbean.CheckOutFormBean;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @Slf4j
@@ -113,15 +116,14 @@ public class OrderCartController {
             orderDetail = orderProductDAO.save(orderDetail);
         } else {
 
-            orderDetail.setQuantity(orderDetail.getQuantity()+1);
+            orderDetail.setQuantity(orderDetail.getQuantity() + 1);
 
         }
 
-            Set<OrderProduct> orderProductList = new HashSet<>();
-            orderProductList.add(orderDetail);
-            order.setOrderProducts(orderProductList);
-            orderDAO.save(order);
-
+        Set<OrderProduct> orderProductList = new HashSet<>();
+        orderProductList.add(orderDetail);
+        order.setOrderProducts(orderProductList);
+        orderDAO.save(order);
 
 
         List<Map<String, Object>> cartProducts = orderProductDAO.getCartProducts(order.getUser().getId(), "PENDING");
@@ -147,7 +149,6 @@ public class OrderCartController {
 
         List<Map<String, Object>> cartProducts = orderProductDAO.getCartProducts(user.getId(), "PENDING");
         response.addObject("cartProducts", cartProducts);
-//        System.out.println(cartProducts.get(0).keySet());
 
 
         return response;
@@ -155,46 +156,6 @@ public class OrderCartController {
 
     }
 
-
-//    @RequestMapping(value = "/cart/remove-cart/{productid}", method = RequestMethod.GET)
-//    public ModelAndView removeFromCart(@PathVariable("productid") Integer productId) throws Exception {
-//        ModelAndView response = new ModelAndView();
-//        response.setViewName("redirect:/product/orderCart");
-//
-//        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//
-//        String username;
-//        if (principal instanceof UserDetails) {
-//            username = ((UserDetails) principal).getUsername();
-//        } else {
-//            username = principal.toString();
-//        }
-//        User user = userDao.findByEmail(username);
-//
-//        Order order = new Order();
-//        OrderProduct orderDetail = new OrderProduct();
-//
-//        order.setStatus("PENDING");
-//        order.setOrderDate(new Date());
-//        order.setUser(user);
-//        orderDAO.delete(order);
-//
-//
-//        orderDetail.setOrder(order);
-//        orderDetail.setProduct(productDAO.findById(productId));
-//        orderDetail.setQuantity(-1);
-//        orderProductDAO.save(orderDetail);
-//
-//        Set<OrderProduct> orderProductList = new HashSet<>();
-//        orderProductList.add(orderDetail);
-//        order.setOrderProducts(orderProductList);
-//        orderDAO.save(order);
-//
-//
-//        List<Map<String, Object>> cartProducts = orderDAO.getProductNameAndOderCount();
-//        response.addObject("cartProducts", cartProducts);
-//        return response;
-//    }
 
     /**
      * save all currnet cart in pending, change to purchase once payment info has been varied. save the purchase and order details.
@@ -241,5 +202,36 @@ public class OrderCartController {
         return new ModelAndView("redirect:/cart/check-out/");
 
     }
+
+    @RequestMapping(value = "/cart/addPay", method = RequestMethod.POST)
+    public String submitPayment(CheckOutFormBean form) throws Exception {
+        log.info(form.toString());
+
+        //get the current user and the current cart that is pending
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        User user = userDao.findByEmail(username);
+        Order order = orderDAO.findByUserAndStatus(user, "PENDING");
+        order.setCreditCard(form.getCreditCard());
+        order.setShippingAddress(form.getShippingAddress());
+        orderDAO.save(order);
+
+
+        return "redirect:/cart/pay";
+    }
+
+    @RequestMapping(value = "/cart/checkout", method = RequestMethod.GET)
+    public ModelAndView checkOutForm() throws Exception {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("product/checkOut");
+        return response;
+
+    }
+
 }
 

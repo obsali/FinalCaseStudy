@@ -12,12 +12,9 @@ import javax.validation.constraints.NotNull;
 @ToString
 public class CheckOutFormBean {
 
-    private Integer id;
-
-    @NotBlank(message = "Card digit must be 16 digits long")
     private String creditCard;
-    @NotBlank(message = "Address cannot be blank")
-    private String ShippingAddress;
+
+    private String shippingAddress;
 
 
 }

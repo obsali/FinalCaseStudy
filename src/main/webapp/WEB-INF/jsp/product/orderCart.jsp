@@ -101,7 +101,7 @@
 
     </c:forEach>
 </table>
-<a href="/cart/pay" class="btn btn-primary" style="margin-left: auto; margin-right: auto; text-align: center">Check Out</a>
+<a href="/cart/checkout" class="btn btn-primary" style="margin-left: auto; margin-right: auto; text-align: center">Check Out</a>
 
 <script>
     const btn = document.getElementById('checkout');
