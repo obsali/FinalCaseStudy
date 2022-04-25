@@ -1,9 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
     <style>
-        .card{
+        .card {
             margin-bottom: 20px;
-            margin-right:50px!important;
+            margin-right: 50px !important;
         }
     </style>
 </head>
@@ -36,15 +36,15 @@
 
             <c:forEach items="${allProducts}" var="product">
                 <div class="card" style="width: 18rem;">
-                <img src="${product.imgUrl}" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">${product.name}</h5>
-                    <h5 class="card-title">${product.price}</h5>
-                    <h5 class="card-title">${product.category}</h5>
-                    <button value="${product.id}" class="btn btn-primary buynow">Buy Now</button>
-                    <a href="/cart/addTo-cart/${product.id}" class="btn btn-primary">Add To Cart</a>
+                    <img src="${product.imgUrl}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <h5 class="card-title">${product.price}</h5>
+                        <h5 class="card-title">${product.category}</h5>
+                        <button value="${product.id}" class="btn btn-primary buynow">Buy Now</button>
+                        <a href="/cart/addTo-cart/${product.id}" class="btn btn-primary">Add To Cart</a>
 
-                </div>
+                    </div>
                 </div>
             </c:forEach>
         </div>
@@ -52,25 +52,14 @@
 
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous">
 
 </script>
 
-<script>
-    $(document).ready(function (){
-        $(".buynow").on("click",function (e){
-            console.log("clicked")
-            $.ajax({
-                url:"/cart/addTo-cart/" + e.target.value,
-                type:"GET",
-                success: function (data){
-                    window.location.href ="/cart/pay"
-                }
-            })
-        })
-    })
-</script>
+<script src="../../../pub/js/buynow.js"></script>
+
 
 <jsp:include page="../include/footer.jsp"/>
