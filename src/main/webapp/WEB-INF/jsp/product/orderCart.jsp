@@ -83,7 +83,7 @@
         <th>Quantity</th>
         <th>price</th>
         <th>Total</th>
-<%--        <th>Remove</th>--%>
+        <th>Remove</th>
 
 
     </tr>
@@ -95,13 +95,13 @@
             <td>${cp.quantity}</td>
             <td>${cp.price}</td>
             <td>${cp.total}</td>
-<%--            <td>  <a href="#" class="btn btn-secondary">Remove ${cp.name}</a></td>--%>
+            <td>  <a href="/cart/deleteItem/${cp.id}" class="btn btn-secondary">Remove ${cp.name} from cart</a></td>
 
         </tr>
 
     </c:forEach>
 </table>
-<a href="/cart/pay" class="btn btn-primary">Check Out</a>
+<a href="/cart/pay" class="btn btn-primary" style="margin-left: auto; margin-right: auto; text-align: center">Check Out</a>
 
 <script>
     const btn = document.getElementById('checkout');

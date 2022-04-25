@@ -5,6 +5,13 @@
 
 
 
+<h1>Home</h1>
+
+<form action="/cart/checkout" method="POST">
+    <button type="submit">Checkout</button>
+
+</form>
+
 
 
 

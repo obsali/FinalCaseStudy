@@ -50,7 +50,6 @@ public class OrderCartController {
         }
         User user = userDao.findByEmail(username);
 
-
         Order order = new Order();
         OrderProduct orderDetail = new OrderProduct();
 
@@ -71,7 +70,7 @@ public class OrderCartController {
         orderDAO.save(order);
 
 
-        List<Map<String, Object>> cartProducts = orderDAO.getCartProducts(user.getId(), "PENDING");
+        List<Map<String, Object>> cartProducts = orderProductDAO.getCartProducts(user.getId(), "PENDING");
         response.addObject("cartProducts", cartProducts);
         System.out.println(cartProducts);
         return response;
@@ -92,27 +91,40 @@ public class OrderCartController {
         }
         User user = userDao.findByEmail(username);
 
-        Order order = new Order();
-        OrderProduct orderDetail = new OrderProduct();
+        Order order = orderDAO.findByUserAndStatus(user, "PENDING");
 
-        order.setStatus("PENDING");
-        order.setOrderDate(new Date());
-        order.setUser(user);
-        orderDAO.save(order);
+        if (order == null) {
+
+            order = new Order();
+
+            order.setStatus("PENDING");
+            order.setOrderDate(new Date());
+            order.setUser(user);
+            order = orderDAO.save(order);
+        }
+
+        OrderProduct orderDetail = orderProductDAO.findByProduct_IdAndOrderId(productId, order.getId());
+
+        if (orderDetail == null) {
+            orderDetail = new OrderProduct();
+            orderDetail.setOrder(order);
+            orderDetail.setProduct(productDAO.findById(productId));
+            orderDetail.setQuantity(1);
+            orderDetail = orderProductDAO.save(orderDetail);
+        } else {
+
+            orderDetail.setQuantity(orderDetail.getQuantity()+1);
+
+        }
+
+            Set<OrderProduct> orderProductList = new HashSet<>();
+            orderProductList.add(orderDetail);
+            order.setOrderProducts(orderProductList);
+            orderDAO.save(order);
 
 
-        orderDetail.setOrder(order);
-        orderDetail.setProduct(productDAO.findById(productId));
-        orderDetail.setQuantity(1);
-        orderProductDAO.save(orderDetail);
 
-        Set<OrderProduct> orderProductList = new HashSet<>();
-        orderProductList.add(orderDetail);
-        order.setOrderProducts(orderProductList);
-        orderDAO.save(order);
-
-
-        List<Map<String, Object>> cartProducts = orderDAO.getProductNameAndOderCount();
+        List<Map<String, Object>> cartProducts = orderProductDAO.getCartProducts(order.getUser().getId(), "PENDING");
         response.addObject("cartProducts", cartProducts);
         return response;
     }
@@ -133,9 +145,11 @@ public class OrderCartController {
         User user = userDao.findByEmail(username);
 
 
-        List<Map<String, Object>> cartProducts = orderDAO.getCartProducts(user.getId(), "PENDING");
+        List<Map<String, Object>> cartProducts = orderProductDAO.getCartProducts(user.getId(), "PENDING");
         response.addObject("cartProducts", cartProducts);
-        System.out.println(cartProducts);
+//        System.out.println(cartProducts.get(0).keySet());
+
+
         return response;
 
 
@@ -189,7 +203,7 @@ public class OrderCartController {
     @RequestMapping(value = "/cart/pay", method = RequestMethod.GET)
     public ModelAndView pay() throws Exception {
         ModelAndView response = new ModelAndView();
-        response.setViewName("redirect:/user/thanks");
+        response.setViewName("user/thanks");
 
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -202,29 +216,30 @@ public class OrderCartController {
         }
         User user = userDao.findByEmail(username);
 
-        Order order = new Order();
-        OrderProduct orderDetail = new OrderProduct();
-
+        Order order = orderDAO.findByUserAndStatus(user, "PENDING");
         order.setStatus("PAID");
-        order.setOrderDate(new Date());
-        order.setUser(user);
         orderDAO.save(order);
-
-
-        orderDetail.setOrder(order);
-        orderDetail.setQuantity(0);
-        orderProductDAO.save(orderDetail);
-
-        Set<OrderProduct> orderProductList = new HashSet<>();
-        orderProductList.add(orderDetail);
-        order.setOrderProducts(orderProductList);
-        orderDAO.save(order);
-
-
-        List<Map<String, Object>> cartProducts = orderDAO.getProductNameAndOderCount();
-        response.addObject("cartProducts", cartProducts);
-        cartProducts.removeAll(cartProducts);
         return response;
+
+
+    }
+
+    @RequestMapping(value = "/cart/deleteItem/{id}", method = RequestMethod.GET)
+    public ModelAndView productRemove(@PathVariable("id") Integer orderProductId) throws Exception {
+
+        OrderProduct currentCart = orderProductDAO.findById(orderProductId);
+
+        if (currentCart == null) {
+            log.info("selectedCartLine is null");
+            // this is an error
+        } else {
+
+            orderProductDAO.delete(currentCart);
+            System.out.println(" removed from cart");
+        }
+
+        return new ModelAndView("redirect:/cart/check-out/");
+
     }
 }
 

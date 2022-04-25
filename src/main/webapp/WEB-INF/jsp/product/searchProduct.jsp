@@ -105,7 +105,7 @@
         <th>Product Description</th>
         <th>Price</th>
         <th>Image</th>
-        <th>Edit</th>
+        <th>ADD Product</th>
 
     </tr>
     <c:forEach items="${productsModelKey}" var="product">
@@ -116,7 +116,7 @@
             <td>$${product.price}</td>
             <td><img style="width: 200px; height: 150px; " src="${product.imgUrl}"></td>
 
-            <td><a href="/product/edit/${product.id}">Edit</a></td>
+            <td><a href="/cart/addTo-cart/${product.id}">Add To Cart</a></td>
         </tr>
     </c:forEach>he
 </table>
