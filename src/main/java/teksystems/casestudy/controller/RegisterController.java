@@ -41,7 +41,7 @@ public class RegisterController {
         return response;
     }
 
-    @RequestMapping(value = "/register/registerSubmit", method = { RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/registerSubmit", method = { RequestMethod.POST, RequestMethod.GET})
     public ModelAndView registerSubmit(@Valid RegisterFormBean form, BindingResult bindingResult) throws Exception {
         ModelAndView response = new ModelAndView();
 

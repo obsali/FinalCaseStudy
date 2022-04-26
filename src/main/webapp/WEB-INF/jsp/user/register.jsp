@@ -71,7 +71,7 @@
 <h1>Edit User</h1>
 </c:if>
 <div class="container" id="main">
-    <form action="/user/registerSubmit" method="get">
+    <form action="/registerSubmit" method="post">
         <input type="hidden" name="id" value="${form.id}">
 
         Email <input class="input" type="text" name="email" id="emailId" value="${form.email}">
@@ -89,12 +89,12 @@
             <div class="error" style="color:red;">${error.getDefaultMessage()}</div>
         </c:forEach>
         <br>
-        Password <input class="input" type="text" name="password" id="passwordId" value="${form.password}">
+        Password <input class="input" type="password" name="password" id="passwordId" value="${form.password}">
         <c:forEach items='${bindingResult.getFieldErrors("password")}' var="error">
             <div class="error" style="color:red;">${error.getDefaultMessage()}</div>
         </c:forEach>
         <br>
-        Confirm Password <input class="input" type="text"
+        Confirm Password <input class="input" type="password"
                                 name="confirmPassword" id="confirmPasswordId" value="${form.confirmPassword}">
         <c:forEach items='${bindingResult.getFieldErrors("confirmPassword")}' var="error">
             <div class="error" style="color:red;">${error.getDefaultMessage()}</div>
@@ -104,21 +104,6 @@
         </h5>
         <input type="checkbox" name="checkbox">
         </h5>
-        <form>
-            Age: <input type="number" min="1" max="100">
-        </form>
-        <%--        <select class="1-100"></select>--%>
-        <%--        <script>--%>
-        <%--            $(function () {--%>
-        <%--                var $select = $(".1-100");--%>
-        <%--                for (i = 1; i <= 100; i++) {--%>
-        <%--                    $select.append($('<option></option>').val(i).html(i))--%>
-        <%--                }--%>
-        <%--            })--%>
-        <%--        </script>--%>
-
-
-        <br>
         <button type="submit" id="btn">Submit</button>
     </form>
 </div>
