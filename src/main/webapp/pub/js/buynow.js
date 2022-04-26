@@ -5,7 +5,7 @@ $(document).ready(function () {
             url: "/cart/addTo-cart/" + e.target.value,
             type: "GET",
             success: function (data) {
-                window.location.href = "/cart/pay"
+                window.location.href = "/cart/checkout"
             }
         })
     })
