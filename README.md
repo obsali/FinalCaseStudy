@@ -2,6 +2,52 @@
 - Simple Spring Boot Shopping cart
 - Full stack web appliication that lets you add to cart and check out
 
+## Run with Docker (recommended)
+
+You can run the whole app in containers (app + MySQL) so you do not need Java/Maven/MySQL installed locally.
+
+### Prerequisite
+- Install Docker Desktop (or Docker Engine + Docker Compose plugin).
+
+### Start everything
+```bash
+docker compose up --build
+```
+
+This starts:
+- `casestudy-db` (MySQL 8, database `late`)
+- `casestudy-app` (Spring Boot app on port `8080`)
+
+Open the app at:
+- http://localhost:8080
+
+### Run in background
+```bash
+docker compose up -d --build
+```
+
+### Stop containers
+```bash
+docker compose down
+```
+
+### Stop containers and remove database data volume
+```bash
+docker compose down -v
+```
+
+### Rebuild app image after code changes
+```bash
+docker compose build app
+docker compose up -d
+```
+
+### Helpful logs
+```bash
+docker compose logs -f app
+docker compose logs -f db
+```
+
 ### Preview
 ![Alt text](previewimage/img.png)
 
